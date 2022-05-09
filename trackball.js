@@ -1,6 +1,6 @@
 import './style.css'
 import * as THREE from 'three'
-import { FlyControls } from 'three/examples/jsm/controls/FlyControls'
+import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls'
 
 //Define Tamanho do Canva
 let width = window.innerWidth
@@ -18,15 +18,18 @@ camera.position.z = 30
 const renderer = new THREE.WebGLRenderer({antialias: true})
 renderer.setSize(width, height)
 
-//Instancia FlyControls
-const controls = new FlyControls( camera, renderer.domElement )
-controls.movementSpeed = 0.2
+//Instancia TrackballControls
+const controls = new TrackballControls( camera, renderer.domElement )
+controls.rotateSpeed = 1.0
+controls.zoomSpeed = 1.2
+controls.panSpeed = 0.8
+controls.keys = [ 'KeyA', 'KeyS', 'KeyD' ]
 
 //Adiciono Renderer ao html
 document.body.appendChild(renderer.domElement)
 
 //Crio Esfera
-const geometry = new THREE.SphereGeometry( 3, 32, 32);
+const geometry = new THREE.SphereGeometry( 3, 32, 32)
 
 //Cria Textura
 const moonTexture = new THREE.TextureLoader().load('moon.jpg')
@@ -55,14 +58,6 @@ Array(300).fill().forEach(() => {
 const spaceTextura = new THREE.TextureLoader().load('space.jpg')
 scene.background = spaceTextura
 
-//Mantem proporção ao redimensionar janela
-window.addEventListener('resize', () => {
-    width = window.innerWidth
-    height = window.innerHeight
-    aspectRatio = width/height
-    camera.updateProjectionMatrix()
-    renderer.setSize(width, height)
-})
 
 //Anima cena
 function animate() {

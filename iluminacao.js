@@ -30,54 +30,47 @@ const params = {
 
 function init(){
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x333333);
+    scene.background = new THREE.Color(0x000000);
     camera_perspective = new THREE.PerspectiveCamera(45, aspect_ratio, 0.1, 1000);
-    camera_ortho = new THREE.OrthographicCamera(-5, 5, 5, -5, 0.1, 1000);	/* left right top bottom near far */
 
     active_camera = camera_perspective;
     active_camera.position.set(1, 0.5, 10);
 
-    let axesHelper = new THREE.AxesHelper(10);
-    scene.add(axesHelper);
+    //Esféra 0 
+    const geometry = new THREE.SphereGeometry(1, 20, 20);
+    const materialNormal = new THREE.MeshNormalMaterial();
+    sphere = new THREE.Mesh(geometry, materialNormal);
+    scene.add(sphere);
 
-    function createWoodenBox(){
-        const geometry = new THREE.BoxGeometry();
-        const texture = new THREE.TextureLoader().load('textures/crate.gif');
-        const materialBasic = new THREE.MeshBasicMaterial({ map: texture });
+    sphere.position.x = 0;
+    sphere.position.y = 1.5;
+    sphere.position.z = 0;
 
-        cube_wooden = new THREE.Mesh(geometry, materialBasic);
+    //Esféra 1
+    const geometry1 = new THREE.SphereGeometry(1, 20, 20);
+    const materialNormal1 = new THREE.MeshBasicMaterial();
+    sphere = new THREE.Mesh(geometry1, materialNormal1);
+    scene.add(sphere);
 
-        cube_wooden.position.y = 2;
-        scene.add(cube_wooden);
+    sphere.position.x = 3;
+    sphere.position.y = 1.5;
+    sphere.position.z = 0;
 
-        cubeNormal = new VertexNormalsHelper(cube_wooden, 1, 0xffff00, 1); //https://threejs.org/docs/#examples/en/helpers/VertexNormalsHelper
-        scene.add(cubeNormal);
-    }
-    function createYellowSphere(){
-        const geometry = new THREE.SphereGeometry(1, 20, 20);
-        const materialBasic = new THREE.MeshBasicMaterial(
-                {color: 0x00ffff, wireframe: false, transparent: true, opacity: 1.0}
-        );
-        const materialNormal = new THREE.MeshNormalMaterial(
-                {wireframe: false, transparent: true, opacity: 1.0}
-        );
+    //Esféra 1
+    const geometry2 = new THREE.SphereGeometry(1, 20, 20);
+    const materialNormal2 = new THREE.MeshBasicMaterial();
+    sphere = new THREE.Mesh(geometry2, materialNormal2);
+    scene.add(sphere);
 
-        sphere = new THREE.Mesh(geometry, materialNormal);
-        scene.add(sphere);
+    sphere.position.x = 6;
+    sphere.position.y = 1.5;
+    sphere.position.z = 0;
+    
 
-        sphere.position.x = 1;
-        sphere.position.y = 2;
-        sphere.position.z = 2;
-
-        sphereNormal = new VertexNormalsHelper(sphere, 0.1, 0xffff00, 1); //https://threejs.org/docs/#examples/en/helpers/VertexNormalsHelper
-        scene.add(sphereNormal);
-    }
     function createPlane(){
-        const geometry = new THREE.PlaneGeometry(100, 100, 50, 50);
-        const material = new THREE.MeshBasicMaterial(
-            {color: 0xa6f995, wireframe: true, side: THREE.DoubleSide}
-            //https://threejs.org/docs/#api/en/materials/Material.side:
-            //THREE.DoubleSide renderiza dos dois lados
+        const geometry = new THREE.PlaneGeometry(1000, 1000, 50, 50);
+        const material = new THREE.MeshLambertMaterial(
+            {color: 0xa6f995, side: THREE.DoubleSide}
         );
         const plane = new THREE.Mesh(geometry, material);
 
@@ -89,25 +82,7 @@ function init(){
         scene.add(plane);
     }
 
-    function createTorusKnot(){
-        const torusKnotGeometry = new THREE.TorusKnotGeometry();
-        const materialLambert = new THREE.MeshLambertMaterial()
-
-        torusKnot = new THREE.Mesh(torusKnotGeometry, materialLambert);
-
-        torusKnot.position.x = 2;
-        torusKnot.position.y = 6;
-        torusKnot.position.z = 2;
-
-        scene.add(torusKnot);
-
-        torusKnotNormal = new VertexNormalsHelper(torusKnot, 0.1, 0xffff00, 1); //https://threejs.org/docs/#examples/en/helpers/VertexNormalsHelper
-        scene.add(torusKnotNormal);
-    }
-    createWoodenBox();
-    createYellowSphere();
     createPlane();
-    createTorusKnot();
 
     function addLight(){
         spotLight = new THREE.SpotLight(0xffffff);
@@ -138,10 +113,6 @@ function init(){
         sphereControls.add(params.sphereControls, 'showWireframe');
         sphereControls.add(params.sphereControls, 'showNormal');
         sphereControls.open();
-
-        let boxControls = gui.addFolder('Box');
-        boxControls.add(params.boxControls, 'showNormal');
-        boxControls.open();
 
         let knotControls = gui.addFolder('Torus Knot');
         knotControls.add(params.knotControls, 'showNormal');
@@ -181,36 +152,28 @@ function createControls(camera){
 const animate = function () {
     requestAnimationFrame(animate);
 
-    cube_wooden.rotation.x += 0.01;
-    sphere.rotation.x += 0.01;
+    // sphere.rotation.x += 0.01;
 
-    if (spotLightMovementRight == true) {
-        spotLight.position.x += 1;
-    }else{
-        spotLight.position.x -= 1;
-    }
+    // if (spotLightMovementRight == true) {
+    //     spotLight.position.x += 1;
+    // }else{
+    //     spotLight.position.x -= 1;
+    // }
 
-    if (spotLight.position.x > 20){
-        spotLightMovementRight = false;
-    }else if (spotLight.position.x < -20){
-        spotLightMovementRight = true;
-    }
+    // if (spotLight.position.x > 20){
+    //     spotLightMovementRight = false;
+    // }else if (spotLight.position.x < -20){
+    //     spotLightMovementRight = true;
+    // }
 
     //console.log(sphere.material);
 
     sphere.material.opacity = params.sphereControls.opacity;
-    torusKnot.material.wireframe = params.knotControls.showWireframe;
     sphere.material.wireframe = params.sphereControls.showWireframe;
-    sphereNormal.visible = params.sphereControls.showNormal;
-    cubeNormal.visible = params.boxControls.showNormal;
-    torusKnotNormal.visible = params.knotControls.showNormal;
 
     spotLightHelper.update();
-    sphereNormal.update();
-    cubeNormal.update();
     controls.update();
     stats.update();
-    torusKnotNormal.update();
 
     renderer.render(scene, active_camera);
 };

@@ -1,0 +1,9 @@
+A atividade (que valerá pontuação) é desenvolver uma aplicação em formato de "balada" e apresentar para o professor. Para tal, introduza:
+
+Luz ambiente com a cor branca;
+
+Luz direcional com a cor amarela;
+
+3 fontes de luzes (que podem ser pontuais ou spotlights) com as cores: vermelho, verde e azul respectivamente. Essas luzes devem se mover sozinhas e "piscar" enquanto a aplicação é executada.
+
+No centro da aplicação devem ser colocados 2 objetos geométricos quaisquer usando LambertMaterial e PhongMaterial. Não use as mesmas geometrias que foram mostradas no vídeo.

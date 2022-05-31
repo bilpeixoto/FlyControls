@@ -1,4 +1,4 @@
-import './style.css'
+import '../assets/style.css'
 import * as THREE from 'three'
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls'
 
@@ -20,7 +20,7 @@ function init() {
   const controls = new TrackballControls(camera, renderer.domElement)
   controls.rotateSpeed = 1.0
   controls.zoomSpeed = 1
-  controls.panSpeed = 0.8
+  controls.panSpeed = 0.5
   controls.keys = ['KeyA', 'KeyS', 'KeyD']
 
   return { camera, scene, renderer, controls }

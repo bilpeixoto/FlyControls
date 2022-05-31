@@ -12,7 +12,10 @@ scene.add(plane)
 
 //Cria Background
 const backgroundGeometry = new THREE.PlaneGeometry(300, 300, 50, 50)
-const backgroundMaterial = new THREE.MeshPhongMaterial({ color: 0x222222, side: THREE.DoubleSide })
+const backgroundMaterial = new THREE.MeshPhongMaterial({
+  color: 0x222222,
+  side: THREE.DoubleSide
+})
 const background = new THREE.Mesh(backgroundGeometry, backgroundMaterial)
 background.position.x = -50
 background.rotation.y = Math.PI / 2 //90 graus em radianos
@@ -29,7 +32,7 @@ scene.add(torusKnot)
 //Animação stormtrooper
 let mixer
 const loader = new ColladaLoader()
-loader.load('./assets/stormtrooper/stormtrooper.dae', (collada) => {
+loader.load('../assets/stormtrooper/stormtrooper.dae', (collada) => {
   const avatar = collada.scene
   const animations = avatar.animations
   avatar.rotateZ(Math.PI * 1.5)
@@ -38,10 +41,8 @@ loader.load('./assets/stormtrooper/stormtrooper.dae', (collada) => {
       node.frustumCulled = false
     }
   })
-
   mixer = new THREE.AnimationMixer(avatar)
   mixer.clipAction(animations[0]).play()
-
   scene.add(avatar)
 })
 
@@ -89,18 +90,16 @@ helpers.forEach((helper) => {
   helper.visible = false
 })
 
-var listener = new THREE.AudioListener()
-camera.add(listener)
-
 // Cria fonte de audio
-var sound = new THREE.Audio(listener)
-var audioLoader = new THREE.AudioLoader()
-
+let listener = new THREE.AudioListener()
+camera.add(listener)
+let sound = new THREE.Audio(listener)
+let audioLoader = new THREE.AudioLoader()
 //Carrega e reproduz audio
-audioLoader.load('sounds/sandstorm.mp3', (buffer) => {
+audioLoader.load('../sounds/sandstorm.mp3', (buffer) => {
   sound.setBuffer(buffer)
   sound.setLoop(true)
-  sound.setVolume(0.5)
+  sound.setVolume(0)
   sound.play()
 })
 
@@ -109,26 +108,33 @@ const guiParams = {
   ambientLight: true,
   directionalLight: true,
   colorfulLights: true,
+  flashLights: true,
   helpers: false,
-  sound: 0.5
+  sound: 0
 }
 const gui = new GUI()
 gui.add(guiParams, 'ambientLight').onChange((value) => {
   ambientLight.visible = value
 })
+
 gui.add(guiParams, 'directionalLight').onChange((value) => {
   directionalLight.visible = value
 })
-gui.add(guiParams, 'helpers').onChange((value) => {
-  helpers.forEach((helper) => {
-    helper.visible = value
-  })
-})
+
 gui.add(guiParams, 'colorfulLights').onChange((value) => {
   colorfulLights.forEach((light) => {
     light.intensity = value ? 1 : 0
   })
 })
+
+gui.add(guiParams, 'flashLights')
+
+gui.add(guiParams, 'helpers').onChange((value) => {
+  helpers.forEach((helper) => {
+    helper.visible = value
+  })
+})
+
 gui.add(guiParams, 'sound', 0, 1).onChange((value) => {
   sound.setVolume(value)
 })
@@ -142,9 +148,8 @@ function animate() {
     light.position.z = Math.cos((Date.now() + i) * 0.007) * 20
     i += 3000
 
-    if (Math.random() < 0.3) {
-      light.visible = !light.visible
-    }
+    if (Math.random() < 0.3 && guiParams.flashLights) light.visible = !light.visible
+    else light.visible = true
   })
 
   const delta = clock.getDelta()

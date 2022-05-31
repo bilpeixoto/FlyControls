@@ -3,7 +3,7 @@
 ### Setup
 
 ```
-git clone https://github.com/g4brielpeixoto/FlyControls.git
+git clone https://github.com/g4brielpeixoto/threejs.git
 npm install
 npm run dev
 ```

@@ -45,7 +45,7 @@ function init(){
 
         //material com bump mapping
         const mapHeight = new THREE.TextureLoader().load('./assets/stone-bump.jpg');
-        material_bump = new THREE.MeshPhongMaterial({ map: texture, bumpMap: mapHeight });
+        material_bump = new THREE.MeshPhongMaterial({ map: texture, bumpMap: mapHeight});
 
         cube_stone = new THREE.Mesh(geometry, material);
 

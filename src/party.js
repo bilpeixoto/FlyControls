@@ -146,7 +146,7 @@ function animate() {
   colorfulLights.forEach((light) => {
     light.position.x = Math.sin((Date.now() + i) * 0.007) * 20
     light.position.z = Math.cos((Date.now() + i) * 0.007) * 20
-    i += 3000
+    i += 1000
 
     if (Math.random() < 0.3 && guiParams.flashLights) light.visible = !light.visible
     else light.visible = true

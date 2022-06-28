@@ -4,13 +4,15 @@ import { Mesh } from 'three'
 const { scene, renderer, camera, controls } = init()
 camera.position.set(0, 0, 12)
 
-const texture = new THREE.TextureLoader().load('./assets/leather/Leather034C_4K_Color.jpg')
+const texture = new THREE.TextureLoader().load('./assets/Bricks078_2K-JPG/Bricks078_2K_Color.jpg')
 const bumpMap = new THREE.TextureLoader().load(
-  './assets/leather/Leather034C_4K_AmbientOcclusion.jpg'
+  './assets/Bricks078_2K-JPG/Bricks078_2K_AmbientOcclusion.jpg'
 )
-const normalMap = new THREE.TextureLoader().load('./assets/leather/Leather034C_4K_NormalGL.jpg')
+const normalMap = new THREE.TextureLoader().load(
+  './assets/Bricks078_2K-JPG/Bricks078_2K_NormalGL.jpg'
+)
 const displacementMap = new THREE.TextureLoader().load(
-  './assets/leather/Leather034C_4K_Displacement.jpg'
+  './assets/Bricks078_2K-JPG/Bricks078_2K_Displacement.jpg'
 )
 
 const geometry = new THREE.SphereGeometry(3, 64, 64)
@@ -57,16 +59,15 @@ gui
     }
     if (value === 'DisplacementMapping') {
       material.displacementMap = displacementMap
-      material.displacementScale = 0.1
+      material.displacementScale = 0.3
       material.normalMap = normalMap
-      material.normalScale.set(2, 2)
-      material.needsUpdate = true
       material.bumpMap = null
+      material.needsUpdate = true
     }
   })
 
 function animate() {
-  light.position.x = Math.sin(Date.now() * 0.003) * 20
+  light.position.x = Math.cos(Date.now() * 0.003) * 20
   controls.update()
   requestAnimationFrame(animate)
   renderer.render(scene, camera)
